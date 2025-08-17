@@ -23,7 +23,7 @@
 ## 🔓 The Matrix Has You
 
 In a world where AI systems control critical infrastructure, financial systems, and decision-making processes, their security can't be an afterthought. 
-**Zero-Day.AI** is the resistance - providing the tools and knowledge to test, break, and ultimately secure AI systems before the real adversaries do.
+**Zero-day.ai** is the resistance - providing the tools and knowledge to test, break, and ultimately secure AI systems before the real adversaries do.
 
 ---
 
