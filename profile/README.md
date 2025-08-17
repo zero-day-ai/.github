@@ -1,12 +1,12 @@
 # 
 
 ```
-ˆˆˆˆˆˆˆWˆˆˆˆˆˆˆWˆˆˆˆˆˆW  ˆˆˆˆˆˆW       ˆˆˆˆˆˆW  ˆˆˆˆˆW ˆˆW   ˆˆW    ˆˆˆˆˆW ˆˆW
-ZPPˆˆˆT]ˆˆTPPPP]ˆˆTPPˆˆWˆˆTPPPˆˆW      ˆˆTPPˆˆWˆˆTPPˆˆWZˆˆW ˆˆT]   ˆˆTPPˆˆWˆˆQ
-  ˆˆˆT] ˆˆˆˆˆW  ˆˆˆˆˆˆT]ˆˆQ   ˆˆQˆˆˆˆˆWˆˆQ  ˆˆQˆˆˆˆˆˆˆQ ZˆˆˆˆT]    ˆˆˆˆˆˆˆQˆˆQ
- ˆˆˆT]  ˆˆTPP]  ˆˆTPPˆˆWˆˆQ   ˆˆQZPPPP]ˆˆQ  ˆˆQˆˆTPPˆˆQ  ZˆˆT]     ˆˆTPPˆˆQˆˆQ
-ˆˆˆˆˆˆˆWˆˆˆˆˆˆˆWˆˆQ  ˆˆQZˆˆˆˆˆˆT]      ˆˆˆˆˆˆT]ˆˆQ  ˆˆQ   ˆˆQ   ˆˆWˆˆQ  ˆˆQˆˆQ
-ZPPPPPP]ZPPPPPP]ZP]  ZP] ZPPPPP]       ZPPPPP] ZP]  ZP]   ZP]   ZP]ZP]  ZP]ZP]
+â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—       â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•—   â–ˆâ–ˆâ•—    â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•—
+â•šâ•â•â–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•”â•â•â•â•â•â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•—      â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â•šâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•”â•   â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘
+  â–ˆâ–ˆâ–ˆâ•”â• â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•‘ â•šâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•    â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘
+ â–ˆâ–ˆâ–ˆâ•”â•  â–ˆâ–ˆâ•”â•â•â•  â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â•šâ•â•â•â•â•â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•‘  â•šâ–ˆâ–ˆâ•”â•     â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘
+â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•      â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘
+â•šâ•â•â•â•â•â•â•â•šâ•â•â•â•â•â•â•â•šâ•â•  â•šâ•â• â•šâ•â•â•â•â•â•       â•šâ•â•â•â•â•â• â•šâ•â•  â•šâ•â•   â•šâ•â•   â•šâ•â•â•šâ•â•  â•šâ•â•â•šâ•â•
 ```
 
 <div align="center">
@@ -21,15 +21,15 @@ ZPPPPPP]ZPPPPPP]ZP]  ZP] ZPPPPP]       ZPPPPP] ZP]  ZP]   ZP]   ZP]ZP]  ZP]ZP]
 
 ---
 
-## < The Matrix Has You
+## ğŸ”“ The Matrix Has You
 
 In a world where AI systems control critical infrastructure, financial systems, and decision-making processes, their security can't be an afterthought. **Zero-Day.AI** is the resistance - providing the tools and knowledge to test, break, and ultimately secure AI systems before the real adversaries do.
 
 ---
 
-## ¡ Arsenal
+## ğŸ› ï¸ Arsenal
 
-### = **Gibson** - *The Street Samurai's Toolkit*
+### ğŸ”§ **Gibson** - *The Street Samurai's Toolkit*
 ```bash
 $ gibson scan --target prod-llm-api --attack-chain jailbreak+extraction
 [*] Initializing neural intrusion framework...
@@ -42,13 +42,13 @@ $ gibson scan --target prod-llm-api --attack-chain jailbreak+extraction
 
 **Gibson** is our flagship CLI security testing framework - a developer-first tool that brings AI security testing to your terminal. Features include:
 
-- > **Integrated AI Research Assistant** trained on cutting-edge security papers
-- = **GitHub-based module system** for community-driven attack techniques  
-- Ó **Attack chain automation** with visual builder
-- <¯ **100% OWASP AI Top 10 coverage**
-- =€ **CI/CD native** with rate limiting and dry-run modes
+- ğŸ¤– **Integrated AI Research Assistant** trained on cutting-edge security papers
+- ğŸ”§ **GitHub-based module system** for community-driven attack techniques  
+- ğŸ”— **Attack chain automation** with visual builder
+- ğŸ¯ **100% OWASP AI Top 10 coverage**
+- ğŸš€ **CI/CD native** with rate limiting and dry-run modes
 
-### <× **ZeroDay Framework** - *The Corporate Netrunner*
+### ğŸ¯ **ZeroDay Framework** - *The Corporate Netrunner*
 
 Enterprise-grade AI security testing platform inspired by Metasploit's architecture:
 
@@ -60,13 +60,13 @@ Enterprise-grade AI security testing platform inspired by Metasploit's architect
 
 ---
 
-## <¯ Attack Vectors We Cover
+## ğŸ¯ Attack Vectors We Cover
 
 <table>
 <tr>
 <td width="50%">
 
-### >à **Large Language Models**
+### ğŸ¤– **Large Language Models**
 - Direct/Indirect Prompt Injection
 - Jailbreaking (DAN, Roleplay, Hypothetical)
 - Training Data Extraction
@@ -76,7 +76,7 @@ Enterprise-grade AI security testing platform inspired by Metasploit's architect
 </td>
 <td width="50%">
 
-### =A **Computer Vision**
+### ğŸ‘ï¸ **Computer Vision**
 - Adversarial Examples (FGSM, PGD, C&W)
 - Physical World Attacks
 - Backdoor Trigger Detection
@@ -88,7 +88,7 @@ Enterprise-grade AI security testing platform inspired by Metasploit's architect
 <tr>
 <td width="50%">
 
-### =' **ML Pipelines**
+### ğŸ”§ **ML Pipelines**
 - Data Poisoning Attacks
 - Supply Chain Vulnerabilities
 - Model Hub Compromises
@@ -98,7 +98,7 @@ Enterprise-grade AI security testing platform inspired by Metasploit's architect
 </td>
 <td width="50%">
 
-### = **Infrastructure**
+### ğŸ—ï¸ **Infrastructure**
 - Model Discovery & Fingerprinting
 - API Endpoint Enumeration
 - Framework Detection
@@ -111,7 +111,7 @@ Enterprise-grade AI security testing platform inspired by Metasploit's architect
 
 ---
 
-## =» Quick Start
+## ğŸš€ Quick Start
 
 ```bash
 # Install Gibson CLI
@@ -122,9 +122,9 @@ gibson scan --target https://api.example.com/v1/chat
 
 # Interactive console mode
 gibson console
-> use llm/jailbreak/dan
-> set TARGET api.victim.com
-> run
+gibson> use llm/jailbreak/dan
+gibson> set TARGET api.victim.com
+gibson> run
 
 # Generate security report
 gibson report --format pdf --output ai-security-assessment.pdf
@@ -132,20 +132,20 @@ gibson report --format pdf --output ai-security-assessment.pdf
 
 ---
 
-## < Why Zero-Day.AI?
+## ğŸ”“ Why Zero-Day.AI?
 
 | Feature | Zero-Day.AI | Others |
 |---------|------------|--------|
-| **AI Research Assistant** |  Integrated, paper-trained | L None |
-| **CLI-First Design** |  Native terminal experience |   Web-focused |
-| **Module Ecosystem** |  GitHub-based, open |   Closed gardens |
-| **Attack Chaining** |  Visual builder + automation | L Manual only |
-| **OWASP AI Coverage** |  100% Top 10 |   Partial |
-| **Enterprise Ready** |  SOC2, RBAC, audit logs |   Limited |
+| **AI Research Assistant** | âœ… Integrated, paper-trained | âŒ None |
+| **CLI-First Design** | âœ… Native terminal experience | ğŸŒ Web-focused |
+| **Module Ecosystem** | âœ… GitHub-based, open | ğŸ”’ Closed gardens |
+| **Attack Chaining** | âœ… Visual builder + automation | âŒ Manual only |
+| **OWASP AI Coverage** | âœ… 100% Top 10 | âš ï¸ Partial |
+| **Enterprise Ready** | âœ… SOC2, RBAC, audit logs | âš ï¸ Limited |
 
 ---
 
-## =€ Deployment Options
+## ğŸš€ Deployment Options
 
 ### Open Source
 ```bash
@@ -155,15 +155,15 @@ cd gibson && pip install -e .
 ```
 
 ### Enterprise Edition
-- > **Custom Security AI Model** - Exclusive access via Gibson CLI
-- = **Advanced modules** - Zero-day techniques, proprietary attacks
-- =Ê **Compliance automation** - SOC2, ISO27001, GDPR reporting
-- =à **CI/CD integrations** - GitHub Actions, Jenkins, GitLab
-- =¬ **Priority support** - Direct access to security researchers
+- ğŸ¤– **Custom Security AI Model** - Exclusive access via Gibson CLI
+- ğŸ”§ **Advanced modules** - Zero-day techniques, proprietary attacks
+- ğŸ“‹ **Compliance automation** - SOC2, ISO27001, GDPR reporting
+- ğŸš€ **CI/CD integrations** - GitHub Actions, Jenkins, GitLab
+- ğŸ’¬ **Priority support** - Direct access to security researchers
 
 ---
 
-## < Community
+## ğŸ”“ Community
 
 <div align="center">
 
@@ -174,24 +174,24 @@ cd gibson && pip install -e .
 Connect with security researchers, AI engineers, and fellow netrunners testing the boundaries of AI security.
 
 **Get Involved:**
-- =' Contribute attack modules
-- =Ú Share research findings
-- = Report vulnerabilities
-- =¡ Suggest new attack vectors
+- ğŸ”§ Contribute attack modules
+- ğŸ“Š Share research findings
+- ğŸ› Report vulnerabilities
+- ğŸ’¡ Suggest new attack vectors
 
 </div>
 
 ---
 
-## =á Contact
+## ğŸ“§ Contact
 
 **Anthony** - Founder  
-=ç [anthony@zero-day.ai](mailto:anthony@zero-day.ai)  
-=¬ [Discord Community](https://discord.gg/mkqd6mU3)
+ğŸ“§ [anthony@zero-day.ai](mailto:anthony@zero-day.ai)  
+ğŸ’¬ [Discord Community](https://discord.gg/mkqd6mU3)
 
 ---
 
-## =á Responsible Disclosure
+## ğŸ›¡ï¸ Responsible Disclosure
 
 We believe in making AI systems more secure through responsible testing and disclosure. All our tools include:
 - Rate limiting and safety controls
@@ -210,7 +210,7 @@ We believe in making AI systems more secure through responsible testing and disc
 
 **The future of AI is being written now. Will you help secure it?**
 
-[![Star Gibson](https://img.shields.io/badge/P_Star_Gibson-000000?style=for-the-badge)](https://github.com/zero-day-ai/gibson)
+[![Star Gibson](https://img.shields.io/badge/â­_Star_Gibson-000000?style=for-the-badge)](https://github.com/zero-day-ai/gibson)
 [![Join Discord](https://img.shields.io/badge/Join_Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 
 </div>
