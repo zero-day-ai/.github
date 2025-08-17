@@ -14,7 +14,6 @@
 **Breaking the Black Box. Securing the Future.**
 
 [![Discord](https://img.shields.io/badge/Discord-Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
-[![License](https://img.shields.io/badge/License-Apache_2.0-green?style=for-the-badge)](LICENSE)
 [![Email](https://img.shields.io/badge/Contact-anthony@zero--day.ai-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:anthony@zero-day.ai)
 
 </div>
@@ -23,13 +22,14 @@
 
 ## 🔓 The Matrix Has You
 
-In a world where AI systems control critical infrastructure, financial systems, and decision-making processes, their security can't be an afterthought. **Zero-Day.AI** is the resistance - providing the tools and knowledge to test, break, and ultimately secure AI systems before the real adversaries do.
+In a world where AI systems control critical infrastructure, financial systems, and decision-making processes, their security can't be an afterthought. 
+**Zero-Day.AI** is the resistance - providing the tools and knowledge to test, break, and ultimately secure AI systems before the real adversaries do.
 
 ---
 
 ## 🛠️ Arsenal
 
-### 🔧 **Gibson** - *The Street Samurai's Toolkit*
+### 🔧 **Gibson** - *Mess with the best die like the rest*
 ```bash
 $ gibson scan --target prod-llm-api --attack-chain jailbreak+extraction
 [*] Initializing neural intrusion framework...
