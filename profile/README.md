@@ -204,8 +204,8 @@ We believe in making AI systems more secure through responsible testing and disc
 <div align="center">
 
 ```
-"The sky above the port was the color of television, tuned to a dead channel."
-- William Gibson, Neuromancer
+"Shall we play a game?"
+- WOPR, WarGames (1983)
 ```
 
 **The future of AI is being written now. Will you help secure it?**
