@@ -208,8 +208,8 @@ We believe in making AI systems more secure through responsible testing and disc
 <div align="center">
 
 ```
-"Shall we play a game?"
-- WOPR, WarGames (1983)
+"The Gibson? The Gibson's un-hackable!"
+- Joey, Hackers (1995)
 ```
 
 **The future of AI is being written now. Will you help secure it?**
