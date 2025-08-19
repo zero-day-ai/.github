@@ -214,7 +214,7 @@ We believe in making AI systems more secure through responsible testing and disc
 
 **The future of AI is being written now. Will you help secure it?**
 
-[![Star Gibson](https://img.shields.io/badge/⭐_Star_Gibson-000000?style=for-the-badge)](https://github.com/zero-day-ai/gibson)
+[![Star Gibson](https://img.shields.io/badge/⭐_Star_Gibson-000000?style=for-the-badge)](https://github.com/zero-day-ai/gibson-framework)
 [![Join Discord](https://img.shields.io/badge/Join_Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 
 </div>
