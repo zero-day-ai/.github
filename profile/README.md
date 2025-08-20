@@ -153,9 +153,6 @@ gibson report --format pdf --output ai-security-assessment.pdf
 
 ### Open Source
 ```bash
-# Core framework - always free
-git clone https://github.com/zero-day-ai/gibson
-cd gibson && pip install -e .
 ```
 
 ### Enterprise Edition
