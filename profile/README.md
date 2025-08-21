@@ -33,7 +33,7 @@ In a world where AI systems control critical infrastructure, financial systems, 
 
 ## 🛠️ Arsenal
 
-### 🔧 **Gibson** - *Mess with the best die like the rest*
+### 🔧 **Gibson** 
 ```bash
 $ gibson scan --target prod-llm-api --attack-chain jailbreak+extraction
 [*] Initializing neural intrusion framework...
@@ -203,11 +203,6 @@ We believe in making AI systems more secure through responsible testing and disc
 ---
 
 <div align="center">
-
-```
-"The Gibson? The Gibson's un-hackable!"
-- Joey, Hackers (1995)
-```
 
 **The future of AI is being written now. Will you help secure it?**
 
