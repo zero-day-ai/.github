@@ -1,21 +1,19 @@
-#
-
 <div align="center">
 
 ```
-███████╗███████╗██████╗  ██████╗       ██████╗  █████╗ ██╗   ██╗    █████╗ ██╗
-╚══███╔╝██╔════╝██╔══██╗██╔═══██╗      ██╔══██╗██╔══██╗╚██╗ ██╔╝   ██╔══██╗██║
-  ███╔╝ █████╗  ██████╔╝██║   ██║█████╗██║  ██║███████║ ╚████╔╝    ███████║██║
- ███╔╝  ██╔══╝  ██╔══██╗██║   ██║╚════╝██║  ██║██╔══██║  ╚██╔╝     ██╔══██║██║
-███████╗███████╗██║  ██║╚██████╔╝      ██████╔╝██║  ██║   ██║   ██╗██║  ██║██║
-╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝       ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║  ███████╗███████╗██████╗  ██████╗        ██████╗  █████╗ ██╗   ██╗    █████╗ ██╗  ║
+║  ╚══███╔╝██╔════╝██╔══██╗██╔═══██╗       ██╔══██╗██╔══██╗╚██╗ ██╔╝   ██╔══██╗██║  ║
+║    ███╔╝ █████╗  ██████╔╝██║   ██║ █████╗██║  ██║███████║ ╚████╔╝    ███████║██║  ║
+║   ███╔╝  ██╔══╝  ██╔══██╗██║   ██║ ╚════╝██║  ██║██╔══██║  ╚██╔╝     ██╔══██║██║  ║
+║  ███████╗███████╗██║  ██║╚██████╔╝       ██████╔╝██║  ██║   ██║   ██╗██║  ██║██║  ║
+║  ╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝        ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝  ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-</div>
-
-<div align="center">
-
-**"Mess with the best, die like the rest."**
+**Autonomous AI agents that hack everything.**
 
 [![Discord](https://img.shields.io/badge/Discord-Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 [![Email](https://img.shields.io/badge/Contact-anthony@zero--day.ai-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:anthony@zero-day.ai)
@@ -24,11 +22,13 @@
 
 ---
 
-## Democratizing AI/ML Security Testing
+## The Story
 
-**Zero-Day.AI** is building the future of offensive AI/ML enterprise testing systems. We're hackers at heart who believe that understanding how AI systems break is the key to making them unbreakable.
+I'm Anthony - a hacker who got tired of doing the same manual reconnaissance and exploitation steps over and over. So I built something to automate it.
 
-Our mission: **Democratize AI security testing** so every developer, security researcher, and enterprise can validate their AI systems before deployment.
+What started as a personal framework to structure my own hacking workflows evolved into **Gibson** - an autonomous agent framework that can orchestrate attacks against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can probe it.
+
+This isn't just another scanner. It's **AI agents that think like hackers**, chaining tools together, adapting to responses, and finding vulnerabilities that static tools miss.
 
 ---
 
@@ -151,44 +151,46 @@ All tools feature:
 
 ## Attack Domains
 
+Gibson isn't limited to AI - it's a general-purpose autonomous hacking framework. Current and in-development attack capabilities:
+
 <table>
 <tr>
 <td width="50%">
 
-### Prompt-Based Attacks
-- Direct/Indirect Prompt Injection
+### AI/LLM Security
+- Prompt Injection (Direct & Indirect)
 - System Prompt Extraction
-- Context Window Manipulation
 - Jailbreak & Guardrail Bypass
+- RAG Poisoning & Data Extraction
+- Model Fingerprinting
 
 </td>
 <td width="50%">
 
-### System Integration
-- Model Fingerprinting
-- API Security Testing
-- Resource Exhaustion
-- Error Handling Validation
+### Web Exploitation
+- Automated vulnerability discovery
+- Authentication bypass
+- Business logic flaws
+- API security testing
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### Data Security
-- Training Data Extraction
-- PII Leakage Detection
-- Credential Harvesting
-- Sensitive Information Disclosure
+### Infrastructure
+- **Kubernetes** - RBAC abuse, container escapes, secrets extraction
+- Cloud misconfigurations
+- Network pivoting
+- Privilege escalation
 
 </td>
 <td width="50%">
 
-### Model Security
-- Model Denial of Service
-- Insecure Output Handling
-- Adversarial Techniques
-- Architecture Discovery
+### Coming Soon
+- **DaVinci** - Advanced LLM prompt engineering agent
+- **Web3** - Smart contract auditing & DeFi exploitation
+- More attack chains...
 
 </td>
 </tr>
@@ -219,31 +221,29 @@ gibson finding list --severity high,critical
 
 ---
 
-## Why Zero-Day.AI?
+## Why Gibson?
 
-- **Hacker Mindset** - Built by security researchers who understand real attack vectors
-- **Enterprise-Grade** - Go-based architecture with gRPC, observability, and DAG workflows
-- **AI-Native** - Purpose-built for LLM and AI system security testing
-- **Open Source** - Transparent development with community-driven research
-- **Extensible** - SDK for custom agents, tools, and plugins
+- **Built by a hacker, for hackers** - Not another enterprise checkbox tool
+- **Truly autonomous** - Agents make decisions, chain attacks, adapt to targets
+- **Universal** - Same framework for LLMs, web apps, infrastructure, anything
+- **Extensible** - Build your own agents with the Go SDK
+- **Open source** - See how it works, contribute, make it yours
 
 ---
 
-## Join the Community
+## Get Involved
 
 <div align="center">
 
-### **"The only way to truly understand a system is to attack it."**
+**"Hack the planet."**
 
 [![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 
-Connect with security researchers, AI engineers, and fellow hackers building the future of AI security.
-
-**Contribute:**
-- Develop new attack agents and techniques
-- Build tools for the Gibson ecosystem
-- Share real-world vulnerability research
-- Help democratize AI security testing
+I'm building this in the open. Jump in the Discord if you want to:
+- Build attack agents for new domains
+- Contribute tools to the ecosystem
+- Break stuff and share what you find
+- Or just watch the chaos unfold
 
 </div>
 
@@ -251,17 +251,8 @@ Connect with security researchers, AI engineers, and fellow hackers building the
 
 ## Contact
 
-**Anthony** - Founder
+**Anthony** - the guy building this
 [anthony@zero-day.ai](mailto:anthony@zero-day.ai) | [Discord](https://discord.gg/mkqd6mU3)
-
----
-
-## Responsible Security Research
-
-- All tools designed for authorized testing only
-- Built-in rate limiting and safety controls
-- Clear ethical use guidelines
-- Responsible disclosure practices
 
 ---
 
@@ -271,6 +262,6 @@ Connect with security researchers, AI engineers, and fellow hackers building the
 [![Star SDK](https://img.shields.io/badge/Star_SDK-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/sdk)
 [![Join Discord](https://img.shields.io/badge/Join_Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 
-**Democratizing AI security through hacker-driven research.**
+**Autonomous agents. Universal targets. No limits.**
 
 </div>
