@@ -24,9 +24,7 @@
 
 ## The Story
 
-I'm Anthony - a hacker who got tired of doing the same manual reconnaissance and exploitation steps over and over. So I built something to automate it.
-
-What started as a personal framework to structure my own hacking workflows evolved into **Gibson** - an autonomous agent framework that can orchestrate attacks against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can probe it.
+What started as a personal framework to structure my own hacking workflows in bug bounty, appsec and DevSecOps work  evolved into **Gibson** - an autonomous agent framework that can orchestrate attacks against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can hack it.
 
 This isn't just another scanner. It's **AI agents that think like hackers**, chaining tools together, adapting to responses, and finding vulnerabilities that static tools miss.
 
