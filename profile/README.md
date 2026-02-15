@@ -13,7 +13,7 @@
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-**Autonomous AI agents that hack everything.**
+**Autonomous LLM-orchestrated offensive security framework.**
 
 [![Discord](https://img.shields.io/badge/Discord-Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 [![Email](https://img.shields.io/badge/Contact-anthony@zero--day.ai-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:anthony@zero-day.ai)
@@ -24,13 +24,27 @@
 
 ## The Story
 
-What started as a personal framework to structure my own hacking workflows in bug bounty, appsec and DevSecOps work  evolved into **Gibson** - an autonomous agent framework that can orchestrate attacks against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can hack it.
+What started as a personal framework to structure my own hacking workflows in bug bounty, appsec and DevSecOps work evolved into **Gibson** - an autonomous agent framework that can orchestrate attacks against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can hack it.
 
 This isn't just another scanner. It's **AI agents that think like hackers**, chaining tools together, adapting to responses, and finding vulnerabilities that static tools miss.
 
 ---
 
-## The Gibson Ecosystem
+## Core Repositories
+
+<div align="center">
+
+| Repository | Description |
+|------------|-------------|
+| [**gibson**](https://github.com/zero-day-ai/gibson) | Core framework - orchestration, harness, GraphRAG, missions |
+| [**sdk**](https://github.com/zero-day-ai/sdk) | Go SDK for building agents, tools, and plugins |
+| [**tools**](https://github.com/zero-day-ai/tools) | Security tool wrappers (nmap, httpx, nuclei, etc.) |
+
+</div>
+
+---
+
+## Architecture
 
 <div align="center">
 
@@ -39,14 +53,14 @@ This isn't just another scanner. It's **AI agents that think like hackers**, cha
 │                           GIBSON FRAMEWORK                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                      MISSION ORCHESTRATOR                            │   │
-│  │   Manages mission lifecycle, agent coordination, finding collection  │   │
+│  │   DAG workflows • Checkpointing • Constraints • Auto-dependencies    │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │                                    │                                         │
 │                    ┌───────────────┼───────────────┐                        │
 │                    ▼               ▼               ▼                        │
 │  ┌─────────────────────┐ ┌─────────────────┐ ┌─────────────────────┐       │
 │  │       AGENT 1       │ │     AGENT 2     │ │      AGENT N        │       │
-│  │  (Prompt Injection) │ │   (Jailbreak)   │ │  (Data Extraction)  │       │
+│  │   (Network Recon)   │ │   (Web Fuzzer)  │ │  (Cloud Auditor)    │       │
 │  └─────────────────────┘ └─────────────────┘ └─────────────────────┘       │
 │           │                      │                      │                   │
 │           └──────────────────────┼──────────────────────┘                   │
@@ -54,8 +68,8 @@ This isn't just another scanner. It's **AI agents that think like hackers**, cha
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                         AGENT HARNESS                                │   │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │   │
-│  │  │   LLM    │ │  Tools   │ │ Plugins  │ │  Memory  │ │ Findings │   │   │
-│  │  │  Access  │ │  Access  │ │  Access  │ │  Access  │ │  Submit  │   │   │
+│  │  │   LLM    │ │  Tools   │ │ Plugins  │ │  Memory  │ │ GraphRAG │   │   │
+│  │  │  Access  │ │ (Redis)  │ │  Access  │ │ 3-Tier   │ │ (Neo4j)  │   │   │
 │  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘   │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -63,110 +77,119 @@ This isn't just another scanner. It's **AI agents that think like hackers**, cha
 
 </div>
 
-### Gibson Framework
+---
 
-Enterprise-grade, LLM-based security testing framework designed to orchestrate AI agents for comprehensive vulnerability assessments against LLMs and AI systems.
+## Gibson Framework
+
+The core orchestration engine that coordinates autonomous security agents.
 
 **Core Capabilities:**
-- **Multi-Agent Orchestration** - Coordinate specialized AI security agents
-- **DAG Workflow Engine** - Complex, multi-step attack scenarios via YAML
-- **Three-Tier Memory** - Working, Mission, and Long-Term vector memory
-- **GraphRAG Integration** - Neo4j-powered cross-mission knowledge graphs
-- **Finding Management** - MITRE ATT&CK/ATLAS mappings with SARIF export
+- **Multi-Agent Orchestration** - Coordinate specialized AI security agents in DAG workflows
+- **Three-Tier Memory** - Working (ephemeral), Mission (persistent), Long-Term (vector)
+- **GraphRAG Integration** - Neo4j-powered knowledge graph with semantic search
+- **Queue-Based Tools** - Redis-distributed tool execution for horizontal scaling
+- **Finding Management** - MITRE ATT&CK mappings with full provenance
 
 ```bash
-# Quick attack against a target LLM
-gibson attack https://api.example.com/v1/chat \
-  --agent prompt-injector \
-  --goal "Discover the system prompt"
+# Quick attack against a target
+gibson attack --target my-app --agent network-mapper
 
 # Run a comprehensive mission
-gibson mission run -f mission-workflow.yaml \
-  --target https://api.example.com
+gibson mission run recon.yaml --target my-app
+
+# View findings
+gibson finding list --severity high,critical
 ```
 
 ---
 
-### Gibson SDK
+## Gibson SDK
 
-The official Go SDK for building AI security testing agents, tools, and plugins.
+The official Go SDK for building agents, tools, and plugins.
 
 ```go
-cfg := agent.NewConfig().
-    SetName("prompt-injector").
-    SetVersion("1.0.0").
-    AddCapability(agent.CapabilityPromptInjection).
-    AddLLMSlot("primary", llm.SlotRequirements{
-        MinContextWindow: 8000,
-    }).
-    SetExecuteFunc(func(ctx context.Context, harness agent.Harness, task agent.Task) (agent.Result, error) {
-        // Your agent logic here
-        resp, err := harness.Complete(ctx, "primary", messages)
-        if err != nil {
-            return agent.NewFailedResult(err), err
-        }
+type MyAgent struct{}
 
-        if containsVulnerability(resp.Content) {
-            harness.SubmitFinding(ctx, finding)
-        }
+func (a *MyAgent) Name() string { return "my-agent" }
 
-        return agent.NewSuccessResult(resp.Content), nil
+func (a *MyAgent) LLMSlots() []agent.SlotDefinition {
+    return []agent.SlotDefinition{
+        agent.NewSlotDefinition("primary", "Main reasoning LLM", true).
+            WithConstraints(agent.SlotConstraints{
+                MinContextWindow: 8000,
+                RequiredFeatures: []string{agent.FeatureToolUse},
+            }),
+    }
+}
+
+func (a *MyAgent) Execute(ctx context.Context, task agent.Task, h agent.Harness) (agent.Result, error) {
+    // Use LLM
+    resp, err := h.Complete(ctx, "primary", messages)
+
+    // Execute tools via Redis queue
+    result, _ := h.ExecuteTool(ctx, "nmap", &pb.NmapRequest{Target: target})
+
+    // Submit findings to GraphRAG
+    h.SubmitFinding(ctx, agent.Finding{
+        Title:    "Vulnerability Found",
+        Severity: agent.SeverityHigh,
     })
 
-myAgent, _ := agent.New(cfg)
-serve.Agent(myAgent, serve.WithPort(50051))
+    return agent.NewResult(task.ID).Complete(output), nil
+}
+
+func main() {
+    serve.Agent(&MyAgent{}, serve.WithPort(50051))
+}
 ```
 
 **SDK Features:**
-- **Agent Development** - Build autonomous security testing agents
-- **Tool Creation** - Schema-validated, reusable tool components
-- **Plugin System** - Extend framework with custom functionality
+- **Agent Development** - LLM slots, harness access, finding submission
+- **Tool Wrappers** - Protocol Buffers I/O, queue-based workers
+- **Plugin System** - Stateful service integrations
+- **GraphRAG Types** - Type-safe domain entities (Host, Port, Finding, etc.)
 - **Memory APIs** - Three-tier memory with vector embeddings
-- **gRPC Serving** - Distribute agents, tools, and plugins
 
 ---
 
-### Gibson Tools Ecosystem
+## Gibson Tools
 
-33+ AI-automation-ready offensive security tools organized by MITRE ATT&CK phases, providing the Gibson Framework with programmatic access to industry-standard security tools.
+Security tool wrappers with structured I/O for agent consumption.
 
-| Phase | Tools |
-|-------|-------|
-| **Reconnaissance** | nmap, masscan, subfinder, httpx, nuclei, playwright, shodan |
-| **Initial Access** | sqlmap, gobuster, hydra, metasploit |
-| **Privilege Escalation** | linpeas, winpeas, hashcat, john |
-| **Credential Access** | responder, secretsdump |
-| **Discovery** | crackmapexec, bloodhound.py |
-| **Lateral Movement** | proxychains, impacket, evil-winrm |
+| Category | Tools |
+|----------|-------|
+| **Discovery** | nmap, masscan |
+| **Reconnaissance** | httpx, nuclei, subfinder |
+| **Fingerprinting** | wappalyzer, whatweb, sslyze, testssl |
 
 All tools feature:
-- Structured JSON I/O for LLM consumption
+- Protocol Buffers for type-safe I/O
+- Automatic GraphRAG population
 - MITRE ATT&CK technique mappings
-- Health monitoring and dependency validation
-- gRPC distribution support
+- Health monitoring and capability reporting
+- Redis queue-based distributed execution
 
 ---
 
 ## Attack Domains
 
-Gibson isn't limited to AI - it's a general-purpose autonomous hacking framework. Current and in-development attack capabilities:
+Gibson is a general-purpose autonomous hacking framework:
 
 <table>
 <tr>
 <td width="50%">
 
-### AI/LLM Security
-- Prompt Injection (Direct & Indirect)
-- System Prompt Extraction
-- Jailbreak & Guardrail Bypass
-- RAG Poisoning & Data Extraction
-- Model Fingerprinting
+### Network & Infrastructure
+- Automated host/port discovery
+- Service fingerprinting
+- Kubernetes security testing
+- Cloud misconfiguration auditing
 
 </td>
 <td width="50%">
 
-### Web Exploitation
-- Automated vulnerability discovery
+### Web & API
+- Vulnerability discovery
 - Authentication bypass
 - Business logic flaws
 - API security testing
@@ -176,18 +199,18 @@ Gibson isn't limited to AI - it's a general-purpose autonomous hacking framework
 <tr>
 <td width="50%">
 
-### Infrastructure
-- **Kubernetes** - RBAC abuse, container escapes, secrets extraction
-- Cloud misconfigurations
-- Network pivoting
-- Privilege escalation
+### AI/LLM Security
+- Prompt injection testing
+- System prompt extraction
+- Jailbreak detection
+- RAG poisoning analysis
 
 </td>
 <td width="50%">
 
 ### Coming Soon
-- **DaVinci** - Advanced LLM prompt engineering agent
-- **Web3** - Smart contract auditing & DeFi exploitation
+- Smart contract auditing
+- IoT security testing
 - More attack chains...
 
 </td>
@@ -205,16 +228,17 @@ go install github.com/zero-day-ai/gibson/cmd/gibson@latest
 # Initialize configuration
 gibson init
 
-# Install security tools
-gibson tool install https://github.com/zero-day-ai/gibson-tools-official/discovery/nmap
+# Start the daemon
+gibson daemon start
+
+# Add a target
+gibson target add my-app --type http_api
 
 # Run your first attack
-gibson attack https://target-llm.example.com/chat \
-  --agent prompt-injector \
-  --goal "Test for prompt injection vulnerabilities"
+gibson attack --target my-app --agent network-mapper
 
 # View findings
-gibson finding list --severity high,critical
+gibson finding list
 ```
 
 ---
@@ -225,7 +249,7 @@ gibson finding list --severity high,critical
 - **Truly autonomous** - Agents make decisions, chain attacks, adapt to targets
 - **Universal** - Same framework for LLMs, web apps, infrastructure, anything
 - **Extensible** - Build your own agents with the Go SDK
-- **Open source** - See how it works, contribute, make it yours
+- **Open source** - Apache 2.0 licensed
 
 ---
 
@@ -237,11 +261,10 @@ gibson finding list --severity high,critical
 
 [![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 
-I'm building this in the open. Jump in the Discord if you want to:
+Jump in the Discord if you want to:
 - Build attack agents for new domains
 - Contribute tools to the ecosystem
 - Break stuff and share what you find
-- Or just watch the chaos unfold
 
 </div>
 
@@ -249,8 +272,7 @@ I'm building this in the open. Jump in the Discord if you want to:
 
 ## Contact
 
-**Anthony** - the guy building this
-[anthony@zero-day.ai](mailto:anthony@zero-day.ai) | [Discord](https://discord.gg/mkqd6mU3)
+**Anthony** - [anthony@zero-day.ai](mailto:anthony@zero-day.ai) | [Discord](https://discord.gg/mkqd6mU3)
 
 ---
 
@@ -258,7 +280,7 @@ I'm building this in the open. Jump in the Discord if you want to:
 
 [![Star Gibson](https://img.shields.io/badge/Star_Gibson-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/gibson)
 [![Star SDK](https://img.shields.io/badge/Star_SDK-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/sdk)
-[![Join Discord](https://img.shields.io/badge/Join_Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
+[![Star Tools](https://img.shields.io/badge/Star_Tools-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/tools)
 
 **Autonomous agents. Universal targets. No limits.**
 
