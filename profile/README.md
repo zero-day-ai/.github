@@ -24,9 +24,17 @@
 
 ---
 
+## The Story
+
+What started as a personal framework to structure my own hacking workflows in bug bounty, appsec, and DevSecOps work evolved into **Gibson**—an autonomous agent platform that can orchestrate operations against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can work with it.
+
+This isn't just another scanner. It's **AI agents that think like operators**, chaining tools together, adapting to responses, and finding what static tools miss.
+
+---
+
 ## What is Gibson?
 
-Gibson is not another scanner. It's an **autonomous agent platform** that deploys directly into your Kubernetes clusters—behind your firewall, inside your CI/CD pipelines, in air-gapped and classified environments.
+Gibson is an **autonomous agent platform** that deploys directly into your Kubernetes clusters—behind your firewall, inside your CI/CD pipelines, in air-gapped and classified environments.
 
 ```
 CLI → Daemon (K8s workload) → Orchestrator → N Autonomous Agents → Targets
@@ -47,7 +55,7 @@ Every competitor in this space—XBOW, Horizon3.ai, Novee, Tenzai—runs from th
 - **Internal networks** - Test what external tools can't see
 - **Classified & air-gapped environments** - Data never leaves your network
 - **CI/CD integration** - Security testing as a pipeline stage, not an afterthought
-- **Compliance regimes** - FedRAMP, ITAR, HIPAA, NYDFS require data stays internal
+- **Compliance regimes** - ITAR, HIPAA, NYDFS, and other frameworks that require data stays internal
 - **Purple team operations** - Red team attacks + blue team visibility in one platform
 
 ---
