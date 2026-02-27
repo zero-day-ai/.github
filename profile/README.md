@@ -13,7 +13,9 @@
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-**Autonomous LLM-orchestrated offensive security framework.**
+### K8s-Native Autonomous Agent Platform
+
+**Deploy AI agents inside your infrastructure. Security testing. Compliance. Operations. Anything.**
 
 [![Discord](https://img.shields.io/badge/Discord-Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 [![Email](https://img.shields.io/badge/Contact-anthony@zero--day.ai-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:anthony@zero-day.ai)
@@ -22,55 +24,67 @@
 
 ---
 
-## The Story
+## What is Gibson?
 
-What started as a personal framework to structure my own hacking workflows in bug bounty, appsec and DevSecOps work evolved into **Gibson** - an autonomous agent framework that can orchestrate attacks against *any* target. LLMs, chatbots, RAG systems, Kubernetes clusters, web applications, APIs... if it's connected, Gibson can hack it.
+Gibson is not another scanner. It's an **autonomous agent platform** that deploys directly into your Kubernetes clusters—behind your firewall, inside your CI/CD pipelines, in air-gapped and classified environments.
 
-This isn't just another scanner. It's **AI agents that think like hackers**, chaining tools together, adapting to responses, and finding vulnerabilities that static tools miss.
+```
+CLI → Daemon (K8s workload) → Orchestrator → N Autonomous Agents → Targets
+```
 
----
+The orchestrator coordinates multiple AI agents that make decisions autonomously: chaining findings, pivoting between targets, and building a persistent knowledge graph. Give it mission objectives; it figures out the rest.
 
-## Core Repositories
-
-<div align="center">
-
-| Repository | Description |
-|------------|-------------|
-| [**gibson**](https://github.com/zero-day-ai/gibson) | Core framework - orchestration, harness, GraphRAG, missions |
-| [**sdk**](https://github.com/zero-day-ai/sdk) | Go SDK for building agents, tools, and plugins |
-| [**tools**](https://github.com/zero-day-ai/tools) | Security tool wrappers (nmap, httpx, nuclei, etc.) |
-
-</div>
+**Gibson is an agent factory.** The SDK enables building new agents in under an hour. Security testing agents. Compliance agents. Infrastructure assessment agents. Code review agents. Whatever your operation needs.
 
 ---
 
-## Architecture
+## Why Gibson Runs *Inside* Your Infrastructure
+
+Every competitor in this space—XBOW, Horizon3.ai, Novee, Tenzai—runs from their cloud and scans externally.
+
+**Gibson deploys on YOUR cluster.** This matters for:
+
+- **Internal networks** - Test what external tools can't see
+- **Classified & air-gapped environments** - Data never leaves your network
+- **CI/CD integration** - Security testing as a pipeline stage, not an afterthought
+- **Compliance regimes** - FedRAMP, ITAR, HIPAA, NYDFS require data stays internal
+- **Purple team operations** - Red team attacks + blue team visibility in one platform
+
+---
+
+## The Platform
 
 <div align="center">
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           GIBSON FRAMEWORK                                   │
+│                            GIBSON PLATFORM                                  │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                      MISSION ORCHESTRATOR                            │   │
-│  │   DAG workflows • Checkpointing • Constraints • Auto-dependencies    │   │
+│  │   Mission YAML → Autonomous decisions → Finding collection → Reports │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
-│                                    │                                         │
-│                    ┌───────────────┼───────────────┐                        │
-│                    ▼               ▼               ▼                        │
-│  ┌─────────────────────┐ ┌─────────────────┐ ┌─────────────────────┐       │
-│  │       AGENT 1       │ │     AGENT 2     │ │      AGENT N        │       │
-│  │   (Network Recon)   │ │   (Web Fuzzer)  │ │  (Cloud Auditor)    │       │
-│  └─────────────────────┘ └─────────────────┘ └─────────────────────┘       │
-│           │                      │                      │                   │
-│           └──────────────────────┼──────────────────────┘                   │
-│                                  ▼                                          │
+│                                    │                                        │
+│         ┌──────────────────────────┼──────────────────────────┐            │
+│         ▼                          ▼                          ▼            │
+│  ┌─────────────┐           ┌─────────────┐            ┌─────────────┐      │
+│  │  SECURITY   │           │ COMPLIANCE  │            │  YOUR AGENT │      │
+│  │   AGENTS    │           │   AGENTS    │            │  (SDK)      │      │
+│  └─────────────┘           └─────────────┘            └─────────────┘      │
+│         │                          │                          │            │
+│         └──────────────────────────┼──────────────────────────┘            │
+│                                    ▼                                        │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                         AGENT HARNESS                                │   │
 │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │   │
-│  │  │   LLM    │ │  Tools   │ │ Plugins  │ │  Memory  │ │ GraphRAG │   │   │
-│  │  │  Access  │ │ (Redis)  │ │  Access  │ │ 3-Tier   │ │ (Neo4j)  │   │   │
+│  │  │   LLM    │ │  Tools   │ │  Memory  │ │ Neo4j    │ │ Findings │   │   │
+│  │  │  Access  │ │  33+     │ │ 3-Tier   │ │ GraphRAG │ │ & Reports│   │   │
 │  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘   │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                        │
+│                                    ▼                                        │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                    DEPLOYS TO ANY K8s CLUSTER                        │   │
+│  │          EKS • GKE • AKS • k3s • OpenShift • Air-Gapped              │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -79,119 +93,125 @@ This isn't just another scanner. It's **AI agents that think like hackers**, cha
 
 ---
 
-## Gibson Framework
+## Use Cases
 
-The core orchestration engine that coordinates autonomous security agents.
+Gibson agents aren't limited to pentesting. The platform supports any autonomous operational task:
 
-**Core Capabilities:**
-- **Multi-Agent Orchestration** - Coordinate specialized AI security agents in DAG workflows
-- **Three-Tier Memory** - Working (ephemeral), Mission (persistent), Long-Term (vector)
-- **GraphRAG Integration** - Neo4j-powered knowledge graph with semantic search
-- **Queue-Based Tools** - Redis-distributed tool execution for horizontal scaling
-- **Finding Management** - MITRE ATT&CK mappings with full provenance
+| Domain | What Gibson Does |
+|--------|------------------|
+| **Continuous Pentesting** | Autonomous security testing integrated into CI/CD pipelines |
+| **Compliance Monitoring** | Evidence collection, continuous audit readiness, control validation |
+| **Attack Surface Discovery** | API discovery, living architecture documentation, asset inventory |
+| **Infrastructure Assessment** | K8s cluster health, drift monitoring, configuration auditing |
+| **Incident Investigation** | Security log triage, automated threat hunting, anomaly detection |
+| **Code Security** | Automated code review, vulnerability remediation suggestions |
+| **DR Validation** | Disaster recovery testing, failover verification |
+
+---
+
+## For Bug Bounty Hunters
+
+**Gibson is free for bug bounty research.** Use it, find vulnerabilities, keep all the rewards. No commercial license needed.
 
 ```bash
-# Quick attack against a target
-gibson attack --target my-app --agent network-mapper
+# Install Gibson CLI
+go install github.com/zero-day-ai/gibson/cmd/gibson@latest
 
-# Run a comprehensive mission
-gibson mission run recon.yaml --target my-app
+# Initialize and run
+gibson init
+gibson attack https://target.example.com \
+  --agent recon-chain \
+  --goal "Full attack surface discovery and vulnerability assessment"
 
-# View findings
-gibson finding list --severity high,critical
+# Export findings for report
+gibson finding export --format markdown
 ```
+
+The only restriction: you can't offer Gibson itself as a service to others. That requires a commercial license.
 
 ---
 
-## Gibson SDK
+## For Enterprises & Consulting Firms
 
-The official Go SDK for building agents, tools, and plugins.
+**Turn your consultants into supervisors, not operators.**
+
+Gibson transforms how security assessments, compliance audits, and infrastructure reviews get delivered:
+
+- **3x throughput** - Same team, triple the engagements
+- **Faster delivery** - Weeks become days
+- **Higher margins** - Less human hours per deliverable
+- **Continuous service** - Monthly retainers, not point-in-time assessments
+- **Competitive differentiation** - "AI-powered delivery" while competitors throw bodies at problems
+
+### Deployment Options
+
+| Package | What You Get |
+|---------|--------------|
+| **Managed Deployment** | We deploy Gibson in your cluster, tune agents for your environment, train your team |
+| **Integration Services** | CI/CD pipeline integration, custom agent development, reporting dashboards |
+| **Ongoing Operations** | Monthly agent tuning, new capability deployment, priority support |
+
+**[Contact for pricing →](mailto:anthony@zero-day.ai)**
+
+---
+
+## The Agent SDK
+
+Build production agents in under an hour:
 
 ```go
-type MyAgent struct{}
+cfg := agent.NewConfig().
+    SetName("compliance-auditor").
+    SetVersion("1.0.0").
+    AddCapability(agent.CapabilityCompliance).
+    SetExecuteFunc(func(ctx context.Context, harness agent.Harness, task agent.Task) (agent.Result, error) {
+        // Agent autonomously collects compliance evidence
+        evidence, err := harness.Tools().Execute(ctx, "kubectl",
+            "get", "networkpolicies", "-A", "-o", "json")
 
-func (a *MyAgent) Name() string { return "my-agent" }
+        // Analyze against compliance framework
+        findings := analyzeCompliance(evidence, "CIS-K8s-1.8")
 
-func (a *MyAgent) LLMSlots() []agent.SlotDefinition {
-    return []agent.SlotDefinition{
-        agent.NewSlotDefinition("primary", "Main reasoning LLM", true).
-            WithConstraints(agent.SlotConstraints{
-                MinContextWindow: 8000,
-                RequiredFeatures: []string{agent.FeatureToolUse},
-            }),
-    }
-}
+        for _, f := range findings {
+            harness.SubmitFinding(ctx, f)
+        }
 
-func (a *MyAgent) Execute(ctx context.Context, task agent.Task, h agent.Harness) (agent.Result, error) {
-    // Use LLM
-    resp, err := h.Complete(ctx, "primary", messages)
-
-    // Execute tools via Redis queue
-    result, _ := h.ExecuteTool(ctx, "nmap", &pb.NmapRequest{Target: target})
-
-    // Submit findings to GraphRAG
-    h.SubmitFinding(ctx, agent.Finding{
-        Title:    "Vulnerability Found",
-        Severity: agent.SeverityHigh,
+        return agent.NewSuccessResult("Audit complete"), nil
     })
 
-    return agent.NewResult(task.ID).Complete(output), nil
-}
-
-func main() {
-    serve.Agent(&MyAgent{}, serve.WithPort(50051))
-}
+myAgent, _ := agent.New(cfg)
+serve.Agent(myAgent, serve.WithPort(50051))  // gRPC distribution
 ```
 
-**SDK Features:**
-- **Agent Development** - LLM slots, harness access, finding submission
-- **Tool Wrappers** - Protocol Buffers I/O, queue-based workers
-- **Plugin System** - Stateful service integrations
-- **GraphRAG Types** - Type-safe domain entities (Host, Port, Finding, etc.)
-- **Memory APIs** - Three-tier memory with vector embeddings
-
----
-
-## Gibson Tools
-
-Security tool wrappers with structured I/O for agent consumption.
-
-| Category | Tools |
-|----------|-------|
-| **Discovery** | nmap, masscan |
-| **Reconnaissance** | httpx, nuclei, subfinder |
-| **Fingerprinting** | wappalyzer, whatweb, sslyze, testssl |
-
-All tools feature:
-- Protocol Buffers for type-safe I/O
-- Automatic GraphRAG population
-- MITRE ATT&CK technique mappings
-- Health monitoring and capability reporting
-- Redis queue-based distributed execution
+**SDK Capabilities:**
+- Three-tier memory (working, mission, long-term vector)
+- Neo4j GraphRAG for cross-mission intelligence
+- 33+ pre-built security tools with structured JSON I/O
+- MITRE ATT&CK/ATLAS mappings and SARIF export
+- gRPC serving for distributed agent deployment
 
 ---
 
 ## Attack Domains
 
-Gibson is a general-purpose autonomous hacking framework:
-
 <table>
 <tr>
 <td width="50%">
 
-### Network & Infrastructure
-- Automated host/port discovery
-- Service fingerprinting
-- Kubernetes security testing
-- Cloud misconfiguration auditing
+### AI/LLM Security
+- Prompt Injection (Direct & Indirect)
+- System Prompt Extraction
+- Jailbreak & Guardrail Bypass
+- RAG Poisoning & Data Extraction
+- Model Fingerprinting
 
 </td>
 <td width="50%">
 
 ### Web & API
-- Vulnerability discovery
+- Automated vulnerability discovery
 - Authentication bypass
-- Business logic flaws
+- Business logic exploitation
 - API security testing
 
 </td>
@@ -199,19 +219,20 @@ Gibson is a general-purpose autonomous hacking framework:
 <tr>
 <td width="50%">
 
-### AI/LLM Security
-- Prompt injection testing
-- System prompt extraction
-- Jailbreak detection
-- RAG poisoning analysis
+### Infrastructure
+- **Kubernetes** - RBAC abuse, container escapes, secrets extraction
+- Cloud misconfigurations (AWS, GCP, Azure)
+- Network pivoting & lateral movement
+- Privilege escalation chains
 
 </td>
 <td width="50%">
 
-### Coming Soon
-- Smart contract auditing
-- IoT security testing
-- More attack chains...
+### Operations (Beyond Red Team)
+- Compliance evidence collection
+- Configuration drift detection
+- Attack surface monitoring
+- Automated remediation
 
 </td>
 </tr>
@@ -219,69 +240,50 @@ Gibson is a general-purpose autonomous hacking framework:
 
 ---
 
-## Getting Started
+## Get Started
 
 ```bash
-# Install Gibson CLI
+# Install
 go install github.com/zero-day-ai/gibson/cmd/gibson@latest
 
-# Initialize configuration
+# Initialize
 gibson init
 
-# Start the daemon
-gibson daemon start
+# Run a security mission
+gibson mission run -f mission.yaml --target https://api.example.com
 
-# Add a target
-gibson target add my-app --type http_api
-
-# Run your first attack
-gibson attack --target my-app --agent network-mapper
-
-# View findings
-gibson finding list
+# Build your own agent
+gibson agent scaffold my-custom-agent
 ```
 
 ---
 
-## Why Gibson?
+## License
 
-- **Built by a hacker, for hackers** - Not another enterprise checkbox tool
-- **Truly autonomous** - Agents make decisions, chain attacks, adapt to targets
-- **Universal** - Same framework for LLMs, web apps, infrastructure, anything
-- **Extensible** - Build your own agents with the Go SDK
-- **Open source** - Apache 2.0 licensed
+Gibson is released under the **Business Source License (BSL 1.1)**—the same license used by MariaDB, HashiCorp, Sentry, and CockroachDB.
 
----
-
-## Get Involved
-
-<div align="center">
-
-**"Hack the planet."**
-
-[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
-
-Jump in the Discord if you want to:
-- Build attack agents for new domains
-- Contribute tools to the ecosystem
-- Break stuff and share what you find
-
-</div>
-
----
-
-## Contact
-
-**Anthony** - [anthony@zero-day.ai](mailto:anthony@zero-day.ai) | [Discord](https://discord.gg/mkqd6mU3)
+- **Bug bounty hunters**: Use freely, keep all rewards
+- **Internal use**: Requires commercial license
+- **Offering as a service**: Requires commercial license
+- **After 4 years**: Converts to Apache 2.0
 
 ---
 
 <div align="center">
 
-[![Star Gibson](https://img.shields.io/badge/Star_Gibson-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/gibson)
-[![Star SDK](https://img.shields.io/badge/Star_SDK-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/sdk)
-[![Star Tools](https://img.shields.io/badge/Star_Tools-000000?style=for-the-badge&logo=github)](https://github.com/zero-day-ai/tools)
+## Let's Talk
 
-**Autonomous agents. Universal targets. No limits.**
+**Building a security practice? Need continuous assessment capabilities? Want to deploy AI agents in your infrastructure?**
+
+[![Schedule a Demo](https://img.shields.io/badge/Schedule_Demo-000000?style=for-the-badge&logo=calendar&logoColor=white)](mailto:anthony@zero-day.ai?subject=Gibson%20Demo%20Request)
+[![Discord](https://img.shields.io/badge/Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
+
+---
+
+**Anthony Santangelo** — Building autonomous agents that operate inside your infrastructure.
+
+Secret clearance | K8s/DevSecOps background | DoD & Financial Services experience
+
+[anthony@zero-day.ai](mailto:anthony@zero-day.ai)
 
 </div>
