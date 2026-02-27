@@ -1,0 +1,373 @@
+# Gibson Core Release Workflow
+# Builds, tests, and publishes multi-arch Gibson Docker images to GHCR
+
+name: Gibson Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'opensource/gibson/**'
+      - '.github/workflows/gibson-release.yaml'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'opensource/gibson/**'
+      - '.github/workflows/gibson-release.yaml'
+  workflow_dispatch:
+    inputs:
+      push_image:
+        description: 'Push Docker image to GHCR'
+        required: false
+        default: 'false'
+        type: boolean
+      deploy_to_eks:
+        description: 'Deploy to EKS cluster'
+        required: false
+        default: 'false'
+        type: boolean
+      image_tag:
+        description: 'Image tag to deploy (e.g., latest, sha-abc123, v1.0.0)'
+        required: false
+        default: 'latest'
+        type: string
+
+env:
+  GO_VERSION: '1.25'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: zero-day-ai/gibson
+
+defaults:
+  run:
+    working-directory: opensource/gibson
+
+jobs:
+  # ===================
+  # Test Job
+  # ===================
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: opensource/gibson/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Run tests with race detector
+        run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        if: github.event_name != 'pull_request'
+        with:
+          file: opensource/gibson/coverage.out
+          flags: gibson-core
+          fail_ci_if_error: false
+
+      - name: Check test coverage threshold
+        run: |
+          COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+          echo "Total coverage: ${COVERAGE}%"
+          if (( $(echo "$COVERAGE < 60" | bc -l) )); then
+            echo "Coverage is below 60% threshold"
+            exit 1
+          fi
+
+  # ===================
+  # Lint Job
+  # ===================
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: opensource/gibson/go.sum
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          working-directory: opensource/gibson
+          args: --timeout=5m
+
+  # ===================
+  # Build Job
+  # ===================
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    strategy:
+      matrix:
+        goos: [linux]
+        goarch: [amd64, arm64]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: opensource/gibson/go.sum
+
+      - name: Build binary
+        run: |
+          CGO_ENABLED=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build \
+            -ldflags="-s -w -X main.version=${{ github.ref_name }} -X main.gitCommit=${{ github.sha }}" \
+            -o gibson-${{ matrix.goos }}-${{ matrix.goarch }} \
+            ./cmd/gibson
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gibson-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: opensource/gibson/gibson-${{ matrix.goos }}-${{ matrix.goarch }}
+          retention-days: 7
+
+  # ===================
+  # Docker Build & Push Job
+  # ===================
+  docker:
+    name: Docker Build & Push
+    runs-on: ubuntu-latest
+    needs: [build]
+    # Only run on main branch push, version tags, or manual trigger with push_image=true
+    if: |
+      startsWith(github.ref, 'refs/tags/v') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.push_image == 'true')
+    permissions:
+      contents: read
+      packages: write
+      id-token: write  # For OIDC token
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha,prefix=sha-
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') || startsWith(github.ref, 'refs/tags/v') }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: opensource/gibson
+          file: opensource/gibson/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            VERSION=${{ github.ref_name }}
+            GIT_COMMIT=${{ github.sha }}
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+          artifact-name: sbom-gibson.spdx.json
+
+  # ===================
+  # Security Scan Job
+  # ===================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: [docker]
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    permissions:
+      contents: read
+      packages: read
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # ===================
+  # Release Notes Job
+  # ===================
+  release-notes:
+    name: Generate Release Notes
+    runs-on: ubuntu-latest
+    needs: [docker, security]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update release with Docker info
+        uses: softprops/action-gh-release@v2
+        with:
+          append_body: true
+          body: |
+
+            ## Docker Image
+
+            ```bash
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ```
+
+            ### Available Tags
+            - `${{ github.ref_name }}` - This release version
+            - `latest` - Latest stable release
+            - `sha-${{ github.sha }}` - This specific commit
+
+            ### Multi-Architecture Support
+            This image supports both `linux/amd64` and `linux/arm64` architectures.
+
+            ### Quick Start
+
+            ```bash
+            # Run Gibson with persistent storage
+            docker run -v ~/.gibson:/root/.gibson ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} serve
+
+            # Check version
+            docker run ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} version
+            ```
+
+            ### SBOM Available
+            Software Bill of Materials (SBOM) is available as a workflow artifact for supply chain security verification.
+
+  # ===================
+  # EKS Deployment Job
+  # ===================
+  deploy:
+    name: Deploy to EKS
+    runs-on: ubuntu-latest
+    needs: [docker]
+    # Only run on manual trigger with deploy_to_eks=true
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_to_eks == 'true'
+    environment:
+      name: dev-eks-platform
+      url: https://console.aws.amazon.com/eks/home?region=us-east-1#/clusters/dev-eks-platform
+    permissions:
+      contents: read
+      id-token: write  # For OIDC if needed in future
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Update kubeconfig for EKS cluster
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name dev-eks-platform
+
+      - name: Verify cluster access
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name: Deploy Gibson to EKS with Helm
+        run: |
+          IMAGE_TAG="${{ github.event.inputs.image_tag }}"
+          echo "Deploying Gibson with image tag: ${IMAGE_TAG}"
+
+          helm upgrade gibson deploy/helm/gibson \
+            --install \
+            --namespace gibson \
+            --create-namespace \
+            --set gibson.image.tag="${IMAGE_TAG}" \
+            --wait \
+            --timeout 5m
+        working-directory: ${{ github.workspace }}
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status statefulset/gibson -n gibson --timeout=5m
+          kubectl get pods -n gibson -l app.kubernetes.io/component=core
+
+      - name: Output deployment info
+        run: |
+          echo "### Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Cluster**: dev-eks-platform" >> $GITHUB_STEP_SUMMARY
+          echo "- **Region**: us-east-1" >> $GITHUB_STEP_SUMMARY
+          echo "- **Namespace**: gibson" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Tag**: ${{ github.event.inputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Pod Status" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          kubectl get pods -n gibson >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
