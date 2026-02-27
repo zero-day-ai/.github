@@ -345,9 +345,7 @@ Gibson is released under the **Business Source License (BSL 1.1)**—the same li
 
 ---
 
-**Anthony Santangelo** — Building autonomous agents that operate inside your infrastructure.
-
-Secret clearance | K8s/DevSecOps background | DoD & Financial Services experience
+**Zero-Day.ai** — Building autonomous agents that operate inside your infrastructure.
 
 [anthony@zero-day.ai](mailto:anthony@zero-day.ai)
 
