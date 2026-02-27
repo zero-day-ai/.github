@@ -150,12 +150,10 @@ Gibson runs as a daemon in your cluster. Your pipelines send missions; the dashb
 ```yaml
 # .github/workflows/security.yml
 - name: Run Gibson Security Mission
+  env:
+    GIBSON_DAEMON_ADDRESS: gibson.internal:50051
   run: |
-    gibson mission submit \
-      --server gibson.internal:50051 \
-      --file missions/full-assessment.yaml \
-      --wait \
-      --fail-on-critical
+    gibson mission run missions/full-assessment.yaml
 ```
 
 ---
