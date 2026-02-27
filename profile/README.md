@@ -34,7 +34,7 @@ This isn't just another scanner. It's **AI agents that think like operators**, c
 
 ## What is Gibson?
 
-Gibson is an **autonomous agent platform** that deploys directly into your Kubernetes clusters—behind your firewall, inside your CI/CD pipelines, in air-gapped and classified environments.
+Gibson is an **autonomous agent platform** that deploys directly into your Kubernetes clusters—behind your firewall, inside your CI/CD pipelines, in air-gapped environments.
 
 ```
 CLI → Daemon (K8s workload) → Orchestrator → N Autonomous Agents → Targets
@@ -53,7 +53,7 @@ Every competitor in this space—XBOW, Horizon3.ai, Novee, Tenzai—runs from th
 **Gibson deploys on YOUR cluster.** This matters for:
 
 - **Internal networks** - Test what external tools can't see
-- **Classified & air-gapped environments** - Data never leaves your network
+- **Air-gapped environments** - Data never leaves your network
 - **CI/CD integration** - Security testing as a pipeline stage, not an afterthought
 - **Compliance regimes** - ITAR, HIPAA, NYDFS, and other frameworks that require data stays internal
 - **Purple team operations** - Red team attacks + blue team visibility in one platform
@@ -98,6 +98,65 @@ Every competitor in this space—XBOW, Horizon3.ai, Novee, Tenzai—runs from th
 ```
 
 </div>
+
+---
+
+## CI/CD Integration
+
+Gibson runs as a daemon in your cluster. Your pipelines send missions; the dashboard shows results.
+
+<div align="center">
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│                                    YOUR INFRASTRUCTURE                               │
+│                                                                                      │
+│  ┌─────────────────┐         ┌─────────────────────────────────────────────────┐    │
+│  │    CI/CD        │         │              KUBERNETES CLUSTER                  │    │
+│  │  ┌───────────┐  │         │  ┌─────────────────────────────────────────┐    │    │
+│  │  │  GitHub   │  │         │  │           GIBSON DAEMON                  │    │    │
+│  │  │  Actions  │  │  gRPC   │  │  ┌─────────┐  ┌─────────┐  ┌─────────┐  │    │    │
+│  │  │───────────│──┼────────────▶│  │ Mission │  │  Agent  │  │  Agent  │  │    │    │
+│  │  │  GitLab   │  │   API   │  │  │ Queue   │  │  Pool   │  │  Pool   │  │    │    │
+│  │  │    CI     │  │         │  │  └────┬────┘  └────┬────┘  └────┬────┘  │    │    │
+│  │  │───────────│  │         │  │       │            │            │       │    │    │
+│  │  │  Jenkins  │  │         │  │       └────────────┼────────────┘       │    │    │
+│  │  └───────────┘  │         │  │                    ▼                    │    │    │
+│  │        │        │         │  │  ┌─────────────────────────────────┐    │    │    │
+│  │        │        │         │  │  │      FINDINGS & KNOWLEDGE       │    │    │    │
+│  │        ▼        │         │  │  │  ┌─────────┐      ┌─────────┐   │    │    │    │
+│  │  gibson mission │         │  │  │  │ Neo4j   │      │ Reports │   │    │    │    │
+│  │  submit -f      │         │  │  │  │ GraphRAG│      │ (SARIF) │   │    │    │    │
+│  │  mission.yaml   │         │  │  │  └─────────┘      └─────────┘   │    │    │    │
+│  │                 │         │  │  └─────────────────────────────────┘    │    │    │
+│  └─────────────────┘         │  └─────────────────────────────────────────┘    │    │
+│                              │                       │                          │    │
+│                              └───────────────────────┼──────────────────────────┘    │
+│                                                      │                               │
+│                                                      ▼                               │
+│                              ┌───────────────────────────────────────────────┐       │
+│                              │              GIBSON DASHBOARD                  │       │
+│                              │  ┌─────────┐  ┌─────────┐  ┌─────────────┐    │       │
+│                              │  │ Mission │  │Findings │  │   Agent     │    │       │
+│                              │  │ Status  │  │  View   │  │  Metrics    │    │       │
+│                              │  └─────────┘  └─────────┘  └─────────────┘    │       │
+│                              └───────────────────────────────────────────────┘       │
+│                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+</div>
+
+```yaml
+# .github/workflows/security.yml
+- name: Run Gibson Security Mission
+  run: |
+    gibson mission submit \
+      --server gibson.internal:50051 \
+      --file missions/full-assessment.yaml \
+      --wait \
+      --fail-on-critical
+```
 
 ---
 
