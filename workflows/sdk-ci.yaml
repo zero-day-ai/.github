@@ -1,0 +1,115 @@
+# SDK CI Workflow
+# Tests and validates the core SDK library
+
+name: SDK CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'core/sdk/**'
+      - '.github/workflows/sdk-ci.yaml'
+    tags:
+      - 'sdk/v*'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'core/sdk/**'
+      - '.github/workflows/sdk-ci.yaml'
+
+env:
+  GO_VERSION: '1.24'
+
+defaults:
+  run:
+    working-directory: core/sdk
+
+jobs:
+  # ===================
+  # Test Job
+  # ===================
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: core/sdk/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Run tests with race detector
+        run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        if: github.event_name != 'pull_request'
+        with:
+          file: core/sdk/coverage.out
+          flags: sdk
+          fail_ci_if_error: false
+
+      - name: Check test coverage threshold
+        run: |
+          COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+          echo "Total coverage: ${COVERAGE}%"
+          if (( $(echo "$COVERAGE < 60" | bc -l) )); then
+            echo "Coverage is below 60% threshold"
+            exit 1
+          fi
+
+  # ===================
+  # Lint Job
+  # ===================
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: core/sdk/go.sum
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          working-directory: core/sdk
+          args: --timeout=5m
+
+  # ===================
+  # Verify Generated Code
+  # ===================
+  verify-generated:
+    name: Verify Generated Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: core/sdk/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Verify generated code is up to date
+        run: make verify-generated
