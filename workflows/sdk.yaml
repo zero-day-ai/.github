@@ -1,0 +1,34 @@
+name: "Gibson SDK"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'core/sdk/**'
+      - '.github/workflows/sdk.yaml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: core/sdk
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+          cache-dependency-path: core/sdk/go.sum
+
+      - run: go build ./...
+      - run: go vet ./...
+      - run: go test ./...
+
+      - name: Check no gibson dependency
+        run: |
+          if grep -q 'zero-day-ai/gibson' go.mod; then
+            echo "ERROR: SDK must not depend on gibson"; exit 1
+          fi

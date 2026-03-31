@@ -1,16 +1,16 @@
-name: "Gibson Tool Wappalyzer"
+name: "Gibson Plugin GitLab"
 
 on:
   push:
     branches: [main]
     paths:
-      - 'core/tools/discovery/wappalyzer/**'
-      - '.github/workflows/tool-wappalyzer.yaml'
+      - 'core/plugins/gibson-plugin-gitlab/**'
+      - '.github/workflows/plugin-gitlab.yaml'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: zero-day-ai/gibson-tool-wappalyzer
+  IMAGE_NAME: zero-day-ai/gibson-plugin-gitlab
 
 jobs:
   build-and-push:
@@ -32,15 +32,15 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/zero-day-ai/gibson-tool-wappalyzer
+          images: ghcr.io/zero-day-ai/gibson-plugin-gitlab
           tags: |
             type=raw,value=latest
             type=sha,prefix=sha-
 
       - uses: docker/build-push-action@v6
         with:
-          context: core/tools/discovery/wappalyzer
-          file: core/tools/discovery/wappalyzer/Dockerfile
+          context: core/plugins/gibson-plugin-gitlab
+          file: core/plugins/gibson-plugin-gitlab/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}

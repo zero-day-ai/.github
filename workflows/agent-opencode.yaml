@@ -1,16 +1,16 @@
-name: "Gibson Tool Wappalyzer"
+name: "Gibson Agent OpenCode"
 
 on:
   push:
     branches: [main]
     paths:
-      - 'core/tools/discovery/wappalyzer/**'
-      - '.github/workflows/tool-wappalyzer.yaml'
+      - 'enterprise/agents/gibson-opencode/**'
+      - '.github/workflows/agent-opencode.yaml'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: zero-day-ai/gibson-tool-wappalyzer
+  IMAGE_NAME: zero-day-ai/gibson-agent-opencode
 
 jobs:
   build-and-push:
@@ -32,15 +32,15 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/zero-day-ai/gibson-tool-wappalyzer
+          images: ghcr.io/zero-day-ai/gibson-agent-opencode
           tags: |
             type=raw,value=latest
             type=sha,prefix=sha-
 
       - uses: docker/build-push-action@v6
         with:
-          context: core/tools/discovery/wappalyzer
-          file: core/tools/discovery/wappalyzer/Dockerfile
+          context: enterprise/agents/gibson-opencode
+          file: enterprise/agents/gibson-opencode/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
