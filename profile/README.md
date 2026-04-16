@@ -32,9 +32,9 @@ Today, they can't:
 
 - **Run it on a laptop.** Fast. Invisible to the SOC. Zero governance. Not production.
 - **Wait for the platform team.** Six months per tool: isolation, IAM, audit, networking, secrets, findings pipeline, ticketing, observability. By the time it ships, the window has closed.
-- **Buy a vendor product.** Expensive. Opinionated. Never exactly what your team needs.
+- **Buy a vendor tool.** You get *their* tool, *their* opinions, *their* roadmap. When your team needs capability #2, start over.
 
-**Gibson is the fourth option.** Wrap the tool. Deploy it. It's production-worthy on arrival — because the substrate already is.
+**Gibson is the fourth option: a substrate, not a tool.** Opinionated about the boring parts — isolation, RBAC, audit, knowledge graph, observability — because those should be uniform across every capability you ship. Flexible where it matters: your team builds exactly the tool, agent, or plugin they need. Production-worthy on arrival, because the substrate already is.
 
 ---
 
