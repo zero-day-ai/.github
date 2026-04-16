@@ -13,9 +13,9 @@
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-### Kubernetes-Native Agent Development Kit
+# Security R&D to production. Same day. Same safety.
 
-**Build, deploy, and orchestrate autonomous AI agents on your infrastructure.**
+**Gibson is the platform where new security capabilities become production-worthy on day one.**
 
 [![Discord](https://img.shields.io/badge/Discord-Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
 [![Email](https://img.shields.io/badge/Contact-anthony@zero--day.ai-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:anthony@zero-day.ai)
@@ -24,111 +24,129 @@
 
 ---
 
-## What We Build
+## The problem Gibson solves
 
-**Gibson** is a Kubernetes-native framework for building and running autonomous AI agents. You bring the agents—Gibson handles orchestration, state management, tool execution, observability, and persistent knowledge.
+Security moves at research speed. New tools, new techniques, new agents drop every week. Your team wants to run the thing they read about Monday morning in production by Friday.
 
-Think of it as **Kubernetes for AI agents**: you define what your agents do, Gibson handles everything else.
+Today, they can't:
+
+- **Run it on a laptop.** Fast. Invisible to the SOC. Zero governance. Not production.
+- **Wait for the platform team.** Six months per tool: isolation, IAM, audit, networking, secrets, findings pipeline, ticketing, observability. By the time it ships, the window has closed.
+- **Buy a vendor product.** Expensive. Opinionated. Never exactly what your team needs.
+
+**Gibson is the fourth option.** Wrap the tool. Deploy it. It's production-worthy on arrival — because the substrate already is.
 
 ---
 
-## The Stack
+## What "production-worthy on day one" actually means
 
-| Component | What It Is |
-|-----------|------------|
-| **Gibson Framework** | DAG-based mission orchestrator, agent runtime, distributed tool execution |
-| **Gibson SDK** | Go SDK for building agents, tools, and plugins with type-safe APIs |
-| **GraphRAG** | Neo4j-backed knowledge graph that persists across missions |
+When a new tool, agent, or plugin lands in Gibson, the substrate gives it:
 
+- **Hardware-isolated execution.** Every invocation runs inside a microVM with a kernel boundary. Untrusted code, LLM-generated payloads, novel binaries — none of them can escape.
+- **Scoped capabilities.** Every tool ships with a declared permission surface: which teams can invoke it, which data it can touch, which other tools or agents it can chain to. Checked on every single call.
+- **Automatic knowledge-graph integration.** Output becomes typed nodes in a shared graph the rest of your fleet can query. No per-tool ingestion code.
+- **Audit trail, tracing, observability.** Every call is logged, traced, metered. Flows to your SIEM. No separate wiring.
+- **Deployable anywhere.** Your cluster, your customer's cluster, or inside your SaaS — same artifact.
+
+Your team writes the interesting part. The substrate handles the rest.
+
+---
+
+## How the pieces fit
+
+Four pillars. Each one is the mechanism that makes "production-worthy on day one" actually true.
+
+| Pillar | What it gives your team |
+|---|---|
+| **Agent Development Kit** | Define your domain in YAML. The SDK generates proto types, Go types, validators, and graph query builders from one source of truth. Wrap a new tool in hours, not sprints. No ingestion code. No retrieval code. No drift. |
+| **Setec microVM sandbox** | Every agent action — tool execution, LLM-generated code, file edit, network call — runs inside a Firecracker microVM with sub-100ms cold start. Hardware isolation by default, on every invocation. |
+| **Capability-scoped RBAC** | Every agent, tool, and API key carries a capability scope. Checked on every harness call, not just at the API gateway. A compromised or prompt-injected agent cannot exceed its grants. |
+| **Split-plane deployment** | Lightweight data plane in your cluster. Control plane hosted by Gibson — or fully on-prem at the enterprise tier. Credentials, raw artifacts, and LLM traffic never leave your perimeter. |
+
+---
+
+## Example: a new tool on Monday morning
+
+An analyst reads about a new fuzzer at a conference on Monday. Tomorrow's target is hers by lunch.
+
+**Without Gibson:** Platform request Monday. Security review week 3. IAM wiring week 6. Findings pipeline week 10. Prod in month 5. By then the tool is obsolete.
+
+**With Gibson:**
+
+```bash
+# Monday 10am — wrap the tool
+gibson tool scaffold fuzzer-xyz --binary ./fuzzer-xyz
+
+# Monday 2pm — register and deploy
+gibson tool register fuzzer-xyz
+helm upgrade gibson --reuse-values
+
+# Monday 3pm — scope it to the team that owns it
+gibson rbac grant --team appsec --tool fuzzer-xyz
+
+# Monday 4pm — it's running in prod
+gibson mission run --tool fuzzer-xyz --target internal-api.corp
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         YOUR K8s CLUSTER                            │
-│                                                                     │
-│   CLI ──▶ Daemon (gRPC) ──▶ Orchestrator ──▶ Agents ──▶ Tools      │
-│                │                  │              │                  │
-│                ▼                  ▼              ▼                  │
-│             [etcd]            [Redis]        [Neo4j]               │
-│            registry         tool queues     GraphRAG               │
-└─────────────────────────────────────────────────────────────────────┘
-```
 
-Agents reason with frontier LLMs (Claude, GPT, Gemini, Ollama). Tools execute via Redis-backed work queues. Everything gets stored in Neo4j for cross-mission intelligence.
+Every invocation runs in a microVM. Findings flow into the knowledge graph. RBAC gates who can call it. Audit events stream to your SIEM. OTel traces land in your observability stack.
+
+**Same day. Same safety.**
 
 ---
 
-## Why Kubernetes-Native?
+## What your team builds on top
 
-Gibson deploys as workloads on YOUR cluster. This is a fundamental architectural choice:
+Gibson is purpose-built for security work. The agents, tools, and plugins your team would actually ship:
 
-- **Internal network access** - Agents operate where external scanners can't reach
-- **Air-gapped environments** - Data never leaves your network boundary
-- **CI/CD integration** - Missions are YAML; deploy agents like any other workload
-- **Compliance requirements** - ITAR, HIPAA, NYDFS—data residency built in
-- **Horizontal scaling** - Scale tool workers independently via replicas
-- **GitOps workflows** - Agents, missions, and configs are all declarative
+| Domain | Example |
+|---|---|
+| **Continuous pentest** | Autonomous recon + exploitation chains that adapt to the target |
+| **Patch validation** | Apply a candidate patch in a sandbox, re-run the exploit, verify the fix |
+| **Vulnerability verification** | Reproduce a CVE against your asset inventory, confirm blast radius |
+| **Attack surface management** | Continuous discovery and change detection across internal and external surfaces |
+| **LLM red-teaming** | Prompt injection, jailbreak, RAG poisoning, tool-abuse testing against your own AI systems |
+| **Compliance evidence** | Automated control validation and evidence collection, auditor-ready |
+| **Incident triage** | Log triage, IOC correlation, automated threat hunting |
 
 ---
 
-## The SDK
-
-Build production agents in Go with the Gibson SDK. Every agent gets:
-
-| Capability | What It Provides |
-|------------|------------------|
-| **LLM Slots** | Abstract LLM requirements (tool use, vision, JSON mode) resolved at runtime |
-| **Tool Execution** | Redis-backed work queues with Protocol Buffer I/O |
-| **Three-Tier Memory** | Working (ephemeral) → Mission (Redis) → Long-term (vector) |
-| **GraphRAG** | Neo4j knowledge graph with automatic entity persistence |
-| **Sub-Agent Delegation** | Agents can spawn and coordinate other agents |
-| **OpenTelemetry** | Distributed tracing across daemon, agents, and tools |
-| **Langfuse** | LLM observability—token usage, cost tracking, turn analysis |
-
-### Component Types
-
-| Type | Purpose | State | I/O Format | Example |
-|------|---------|-------|------------|---------|
-| **Agent** | Autonomous LLM-driven operations | Stateful | Harness API | network-recon, api-discovery |
-| **Tool** | Atomic operations (wrappers around utilities) | Stateless | Protocol Buffers | nmap, httpx, nuclei |
-| **Plugin** | External service integrations | Stateful | JSON | shodan, gitlab, scope-ingestion |
-
-### Quick Example
+## The SDK in two minutes
 
 ```go
 type MyAgent struct{}
 
 func (a *MyAgent) Execute(ctx context.Context, task agent.Task, h agent.Harness) (agent.Result, error) {
-    // Use LLM with abstract slot
+    // BYOK LLM, abstract slot — not model-locked
     resp, _ := h.Complete(ctx, "primary", []llm.Message{
         llm.NewSystemMessage("You are a security analyst"),
         llm.NewUserMessage(task.Goal),
     })
 
-    // Execute tools via Redis queue (proto I/O)
-    output, _ := h.ExecuteTool(ctx, "nmap", &pb.ScanRequest{Target: "192.168.1.0/24"})
+    // Run a tool. Inside a microVM. Scoped to this agent's capabilities.
+    output, _ := h.ExecuteTool(ctx, "fuzzer-xyz", &pb.FuzzRequest{
+        Target: "https://internal-api.corp/v1/login",
+    })
 
-    // Persist to GraphRAG automatically
-    host := graphrag.NewHost()
-    host.Ip = "192.168.1.100"
-
-    // Submit findings
+    // Findings auto-flow to the knowledge graph.
     h.SubmitFinding(ctx, agent.Finding{
-        Title:    "Open Admin Panel",
+        Title:    "Authentication bypass via header injection",
         Severity: agent.SeverityHigh,
     })
 
-    return agent.NewSuccessResult("Complete"), nil
+    return agent.NewSuccessResult("done"), nil
 }
 ```
 
+Three tiers of memory come for free: working (ephemeral, per-mission), mission (persistent), long-term (cross-mission graph). Sub-agent delegation, plugin access, OTel tracing, Langfuse LLM observability — all on the harness.
+
 ---
 
-## GraphRAG Knowledge System
+## Knowledge graph as native memory
 
-Every entity discovered by agents persists in Neo4j with full relationship mapping:
+Every entity your agents and tools discover lands in a shared graph with typed relationships:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           GRAPHRAG SCHEMA                                   │
 │                                                                             │
 │   Mission ──[HAS_RUN]──▶ MissionRun ──[CONTAINS_AGENT_RUN]──▶ AgentRun     │
 │                                                                             │
@@ -138,174 +156,86 @@ Every entity discovered by agents persists in Neo4j with full relationship mappi
 │                                                                             │
 │   Finding ──[AFFECTS]──▶ {Host, Service, Endpoint}                          │
 │   Finding ──[HAS_EVIDENCE]──▶ Evidence                                      │
-│   Finding ──[USES_TECHNIQUE]──▶ Technique (MITRE ATT&CK/ATLAS)             │
+│   Finding ──[USES_TECHNIQUE]──▶ Technique (MITRE ATT&CK / ATLAS)           │
+│                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Features:**
-- UUID-based entity identity with automatic deduplication
-- CEL-based validation rules on all entity types
-- YAML-driven taxonomy (single source of truth for all generated code)
-- Tool outputs auto-populate via `DiscoveryResult` proto field
-- Cross-mission intelligence—agents learn from past engagements
-
----
-
-## Use Cases
-
-The framework is domain-agnostic. Security is our focus, but Gibson can orchestrate any autonomous operation:
-
-| Domain | What Gibson Does |
-|--------|------------------|
-| **Security Testing** | Autonomous pentesting with tool chaining and adaptive reasoning |
-| **Compliance** | Evidence collection, control validation, audit trail generation |
-| **Attack Surface Management** | Continuous asset discovery and change detection |
-| **LLM Red-Teaming** | Prompt injection, jailbreak testing, RAG poisoning |
-| **Infrastructure Assessment** | K8s cluster audits, drift monitoring, misconfiguration detection |
-| **Incident Response** | Log triage, automated threat hunting, IOC correlation |
-
----
-
-## Tool Execution System
-
-Tools run as stateless workers consuming from Redis queues:
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                          TOOL WORKERS                            │
-│                                                                  │
-│   Agent ──▶ LPUSH tool:nmap:queue ──▶ [ Worker Pool ]           │
-│                                              │                   │
-│                                              ▼                   │
-│                                    PUBLISH results:<jobID>       │
-│                                              │                   │
-│   Agent ◀── SUBSCRIBE results:<jobID> ◀─────┘                   │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-**Key patterns:**
-- Protocol Buffer I/O with auto-generated types
-- `DiscoveryResult` field (proto field 100) auto-populates GraphRAG
-- Horizontal scaling via K8s replica count
-- Health checks, heartbeats, graceful shutdown
-- Concurrency tuning per tool type
-
----
-
-## Observability
-
-Built-in observability across the entire stack:
-
-| System | What It Tracks |
-|--------|----------------|
-| **Langfuse** | LLM calls, token usage, cost per mission/agent, turn analysis |
-| **OpenTelemetry** | Distributed traces across daemon → agents → tools |
-| **Structured Logging** | JSON logs with trace ID correlation |
-| **Redis Insights** | Queue depth, worker count, job latency |
+UUID identity with automatic deduplication. CEL validators on every node type. Taxonomy driven by one YAML file — edit it, regenerate, the SDK, graph schema, and query surface move together.
 
 ---
 
 ## Deployment
 
+**Default tier.** Gibson hosts the control plane. You run lightweight agent, tool, and plugin workers in your cluster. Credentials, raw artifacts, and LLM calls (BYOK, direct to your provider) never leave your perimeter.
+
+**Enterprise tier.** Full on-prem. Same Helm chart, everything deployed inside your cluster. For air-gap, ITAR, and regulated buyers who can't let anything leave.
+
+**Embedded tier.** Deploy Gibson inside your own SaaS to power agent features for your customers.
+
+Runs on EKS, GKE, AKS, k3s, OpenShift, and air-gapped clusters.
+
 ```yaml
-# Helm values.yaml
+# values.yaml — standard tier (data plane only)
 gibson:
-  daemon:
-    replicas: 2
-  redis:
-    persistence: true
-  neo4j:
-    edition: enterprise
+  mode: data-plane
+  controlPlane:
+    endpoint: https://control.zero-day.ai
   agents:
     network-recon:
       replicas: 3
-    api-discovery:
-      replicas: 2
   tools:
-    nmap:
+    fuzzer-xyz:
       workers: 5
       concurrency: 8
-    httpx:
-      workers: 3
-      concurrency: 4
-```
-
-Supports: **EKS** • **GKE** • **AKS** • **k3s** • **OpenShift** • **Air-gapped**
-
----
-
-## For Security Teams
-
-Gibson is free for bug bounty research. Enterprise/consulting use requires a commercial license.
-
-| Use Case | License |
-|----------|---------|
-| **Bug bounty hunting** | Free (keep all rewards) |
-| **Internal security testing** | Commercial |
-| **Consulting/MSSP** | Commercial |
-| **Offering as a service** | Commercial |
-
-**[Contact for enterprise pricing →](mailto:anthony@zero-day.ai)**
-
----
-
-## Get Started
-
-```bash
-# Install CLI
-go install github.com/zero-day-ai/gibson/cmd/gibson@latest
-
-# Initialize local environment
-gibson init
-
-# Run a mission
-gibson mission run -f mission.yaml
-
-# Scaffold a new agent
-gibson agent scaffold my-agent
-
-# Deploy to K8s
-helm install gibson zero-day-ai/gibson -f values.yaml
+  sandbox:
+    runtime: setec
+    networkPolicy: deny-all
 ```
 
 ---
 
-## Tech Stack
+## Licensing
+
+**Business Source License (BSL 1.1)** — converts to Apache 2.0 after 4 years. Same model as HashiCorp, Sentry, CockroachDB, MariaDB.
+
+| Use case | Tier |
+|---|---|
+| Bug bounty hunting | Free (keep all rewards) |
+| Internal security team | Commercial |
+| MSSP / consulting | Commercial |
+| Offering as a managed service | Commercial |
+
+[Contact for pricing →](mailto:anthony@zero-day.ai)
+
+---
+
+## Tech stack
 
 | Layer | Technology |
-|-------|------------|
-| **Language** | Go 1.21+ |
-| **RPC** | gRPC + Protocol Buffers |
-| **Service Registry** | etcd |
-| **Job Queue** | Redis Stack (RediSearch FTS) |
-| **Knowledge Graph** | Neo4j 5.x |
-| **Vector Store** | Qdrant (optional) |
-| **LLM Providers** | Anthropic, OpenAI, Google, Ollama |
-| **Observability** | Langfuse, OpenTelemetry |
-| **Deployment** | Kubernetes, Helm |
-
----
-
-## License
-
-**Business Source License (BSL 1.1)** — same as MariaDB, HashiCorp, Sentry, CockroachDB.
-
-Converts to Apache 2.0 after 4 years.
+|---|---|
+| Language | Go 1.21+ |
+| RPC | gRPC + Protocol Buffers |
+| Sandbox | Firecracker + Kata, via the Setec K8s operator |
+| Authorization | OpenFGA (Zanzibar relation model) |
+| Job queue | Redis Stack |
+| Knowledge graph | Neo4j |
+| Vector store | Qdrant (optional) |
+| LLM providers | Anthropic, OpenAI, Google, Ollama — BYOK |
+| Observability | Langfuse, OpenTelemetry, Prometheus, Loki |
+| Deployment | Kubernetes, Helm |
 
 ---
 
 <div align="center">
 
-## Contact
+## Build the agents your CISO, SRE, and auditor all signed off on.
 
-**Building autonomous agents for your infrastructure? Let's talk.**
-
-[![Schedule a Demo](https://img.shields.io/badge/Schedule_Demo-000000?style=for-the-badge&logo=calendar&logoColor=white)](mailto:anthony@zero-day.ai?subject=Gibson%20Demo%20Request)
-[![Discord](https://img.shields.io/badge/Join_Community-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mkqd6mU3)
+**[Schedule a demo](mailto:anthony@zero-day.ai?subject=Gibson%20Demo%20Request)** · **[Join Discord](https://discord.gg/mkqd6mU3)**
 
 ---
 
-**Zero-Day.ai** — Kubernetes-native agent development kit.
+**Zero-Day.ai**
 
 [anthony@zero-day.ai](mailto:anthony@zero-day.ai)
 
