@@ -165,6 +165,26 @@ UUID identity with automatic deduplication. CEL validators on every node type. T
 
 ---
 
+## Ask your fleet questions
+
+Every Gibson deployment ships with a dashboard chat assistant scoped to your tenant's knowledge graph. Once your team has agents populating the graph, anyone in the org can interrogate it in plain language:
+
+> **CISO:** *"How many critical CVEs are in production right now? Which ones were introduced this week?"*
+>
+> **Platform engineer:** *"How many services are running in this cluster? Which ones expose endpoints that haven't been scanned in the last 7 days?"*
+>
+> **SRE:** *"What changed in our external attack surface this week?"*
+>
+> **Compliance lead:** *"Show me findings mapped to CC6.1 from the last quarter."*
+
+No SQL. No Cypher. No custom dashboards. The assistant reads tenant-scoped graph context, picks the right analyst persona (General, Recon, Exploit, Analysis, Remediation), and streams a grounded answer through the LLM provider you already use. BYOK, no data leaves your perimeter.
+
+**The assistant is only as good as the agents you've deployed.** No agents → empty graph → generic answers. Ship a recon agent → the graph knows your hosts and services. Ship a vulnerability agent → the graph knows your CVEs. Every tool your team wraps adds another dimension the assistant can reason over. *That* is the substrate in action.
+
+**Coming soon — tool-calling chat.** The assistant moves from reader to dispatcher: *"run recon against 10.0.42.0/24 with the appsec toolkit"* → Gibson kicks off the mission, RBAC-gated, tenant-scoped, auditable.
+
+---
+
 ## Deployment
 
 **Default tier.** Gibson hosts the control plane. You run lightweight agent, tool, and plugin workers in your cluster. Credentials, raw artifacts, and LLM calls (BYOK, direct to your provider) never leave your perimeter.
